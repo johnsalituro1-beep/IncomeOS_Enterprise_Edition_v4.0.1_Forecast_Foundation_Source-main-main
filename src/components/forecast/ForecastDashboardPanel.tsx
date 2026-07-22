@@ -1,5 +1,5 @@
-import { RotateCcw, SlidersHorizontal, TrendingUp } from 'lucide-react'
-import { useMemo } from 'react'
+import { BookmarkPlus, GitCompareArrows, RotateCcw, SlidersHorizontal, Trash2, TrendingUp } from 'lucide-react'
+import { useMemo, useState } from 'react'
 import { useForecast } from '../../features/forecast/ForecastContext'
 import { buildForecastChartPoints, buildLinePath } from './forecastChart'
 
@@ -9,7 +9,13 @@ const money = (value: number, digits = 0) => value.toLocaleString('en-US', {
 const percent = (value: number) => `${value.toFixed(1)}%`
 
 export function ForecastDashboardPanel() {
-  const { assumptions, result, status, error, updateAssumptions, resetAssumptions } = useForecast()
+  const {
+    assumptions, result, status, error, presets, scenarios,
+    updateAssumptions, resetAssumptions, savePreset, loadPreset, deletePreset,
+    addScenario, removeScenario, clearScenarios,
+  } = useForecast()
+  const [presetName, setPresetName] = useState('')
+  const [scenarioName, setScenarioName] = useState('')
   const { summary, confidence, timeline, warnings } = result
   const points = useMemo(() => buildForecastChartPoints(timeline), [timeline])
   const linePath = buildLinePath(points)
@@ -17,6 +23,16 @@ export function ForecastDashboardPanel() {
   const incomeGrowth = summary.startingAnnualIncome > 0
     ? (summary.projectedAnnualIncome / summary.startingAnnualIncome - 1) * 100
     : 0
+
+  const onSavePreset = () => {
+    if (!presetName.trim()) return
+    savePreset(presetName)
+    setPresetName('')
+  }
+  const onAddScenario = () => {
+    addScenario(scenarioName)
+    setScenarioName('')
+  }
 
   return <section className="forecast-workspace" aria-labelledby="forecast-heading">
     <article className="panel forecast-controls-panel">
@@ -27,13 +43,22 @@ export function ForecastDashboardPanel() {
       <div className="forecast-control-grid">
         <ForecastRange label="Reinvest distributions" value={assumptions.reinvestmentRate} suffix="%" min={0} max={100} step={5} onChange={value => updateAssumptions({ reinvestmentRate: value })}/>
         <ForecastRange label="Distribution growth" value={assumptions.annualDistributionGrowthRate * 100} suffix="%" min={0} max={15} step={0.5} onChange={value => updateAssumptions({ annualDistributionGrowthRate: value / 100 })}/>
-        <ForecastRange label="Price growth" value={assumptions.annualPriceGrowthRate * 100} suffix="%" min={0} max={15} step={0.5} onChange={value => updateAssumptions({ annualPriceGrowthRate: value / 100 })}/>
+        <ForecastRange label="Price growth" value={assumptions.annualPriceGrowthRate * 100} suffix="%" min={-10} max={15} step={0.5} onChange={value => updateAssumptions({ annualPriceGrowthRate: value / 100 })}/>
         <ForecastRange label="Inflation" value={assumptions.inflationRate * 100} suffix="%" min={0} max={10} step={0.25} onChange={value => updateAssumptions({ inflationRate: value / 100 })}/>
         <label className="forecast-select"><span>Forecast horizon</span><select value={assumptions.horizonYears} onChange={event => updateAssumptions({ horizonYears: Number(event.target.value) })}>{[1,3,5,10,20,30].map(years=><option key={years} value={years}>{years} year{years === 1 ? '' : 's'}</option>)}</select></label>
         <button className="secondary-button forecast-reset" type="button" onClick={resetAssumptions}><RotateCcw size={14}/> Reset assumptions</button>
       </div>
       {error && <p className="forecast-message error-text">{error}</p>}
       {!error && warnings.length > 0 && <p className="forecast-message">{warnings[0]}</p>}
+
+      <div className="forecast-tool-section">
+        <span className="forecast-tool-label">SAVED PRESETS</span>
+        <div className="forecast-inline-form"><input value={presetName} maxLength={48} placeholder="Preset name" onChange={event => setPresetName(event.target.value)} onKeyDown={event => { if (event.key === 'Enter') onSavePreset() }}/><button type="button" className="secondary-button" onClick={onSavePreset} disabled={!presetName.trim()}><BookmarkPlus size={13}/>Save</button></div>
+        <div className="forecast-preset-list">
+          {presets.length === 0 && <small>No saved presets yet.</small>}
+          {presets.map(preset => <div className="forecast-preset-row" key={preset.id}><button type="button" onClick={() => loadPreset(preset.id)}><strong>{preset.name}</strong><span>{preset.assumptions.horizonYears}Y · {preset.assumptions.reinvestmentRate}% reinvest</span></button><button type="button" aria-label={`Delete ${preset.name}`} onClick={() => deletePreset(preset.id)}><Trash2 size={13}/></button></div>)}
+        </div>
+      </div>
     </article>
 
     <div className="forecast-summary-grid">
@@ -54,6 +79,12 @@ export function ForecastDashboardPanel() {
         </svg>
         <div className="forecast-chart-footer"><span>Starting annual income <strong>{money(summary.startingAnnualIncome)}</strong></span><span>Cumulative distributions <strong>{money(summary.cumulativeDistributions)}</strong></span><span>Ending annual income <strong>{money(summary.projectedAnnualIncome)}</strong></span></div>
       </> : <div className="forecast-empty"><SlidersHorizontal size={24}/><strong>Add holdings to activate the forecast timeline</strong><span>The model will recalculate automatically from your portfolio.</span></div>}
+    </article>
+
+    <article className="panel forecast-scenario-panel">
+      <div className="panel-heading"><div><span className="eyebrow">SCENARIO LAB</span><h3>Compare forecast snapshots</h3></div>{scenarios.length > 0 && <button className="text-button" type="button" onClick={clearScenarios}>Clear all</button>}</div>
+      <div className="forecast-inline-form"><input value={scenarioName} maxLength={48} placeholder={`Scenario ${scenarios.length + 1}`} onChange={event => setScenarioName(event.target.value)} onKeyDown={event => { if (event.key === 'Enter') onAddScenario() }}/><button className="secondary-button" type="button" onClick={onAddScenario} disabled={summary.startingPortfolioValue === 0 || scenarios.length >= 4}><GitCompareArrows size={13}/>Capture current</button></div>
+      {scenarios.length === 0 ? <div className="forecast-scenario-empty">Adjust the controls, then capture up to four scenarios for side-by-side comparison.</div> : <div className="forecast-scenario-table-wrap"><table className="forecast-scenario-table"><thead><tr><th>Scenario</th><th>Weekly income</th><th>Annual income</th><th>Ending value</th><th>Reinvest</th><th>Growth</th><th></th></tr></thead><tbody>{scenarios.map(scenario => <tr key={scenario.id}><td><strong>{scenario.name}</strong><span>{scenario.assumptions.horizonYears}-year model</span></td><td>{money(scenario.result?.summary.projectedWeeklyIncome ?? 0, 2)}</td><td>{money(scenario.result?.summary.projectedAnnualIncome ?? 0)}</td><td>{money(scenario.result?.summary.endingPortfolioValue ?? 0)}</td><td>{scenario.assumptions.reinvestmentRate}%</td><td>{percent(scenario.assumptions.annualDistributionGrowthRate * 100)}</td><td><button type="button" aria-label={`Remove ${scenario.name}`} onClick={() => removeScenario(scenario.id)}><Trash2 size={13}/></button></td></tr>)}</tbody></table></div>}
     </article>
   </section>
 }

@@ -84,8 +84,10 @@ export interface ForecastSummary {
 }
 
 export interface ForecastScenario {
+  id: string
   name: string
   assumptions: ForecastAssumptions
+  result?: ForecastResult
 }
 
 export interface ForecastResult {
