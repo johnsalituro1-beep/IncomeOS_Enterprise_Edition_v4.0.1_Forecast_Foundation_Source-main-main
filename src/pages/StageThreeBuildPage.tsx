@@ -1,0 +1,11 @@
+import { BookOpenCheck, CheckCircle2, CircleDashed, Database, GitCompareArrows, SearchCheck, ShieldCheck } from 'lucide-react'
+
+const modules = [
+  ['Research profile engine','Complete','Strategy, distribution, risk, portfolio fit, evidence ledger'],
+  ['Research Terminal v2','Complete','Search, category filters, research cards, score summaries'],
+  ['ETF profile workspace','Complete','Full research page for each local portfolio ETF'],
+  ['Portfolio-fit analytics','Complete','Capital weight, income contribution, role and concentration'],
+  ['Peer relationship model','Foundation','Category-driven peers awaiting verified universe data'],
+  ['Issuer and benchmark feeds','Provider required','Blocked until a verified market-data source is connected'],
+]
+export function StageThreeBuildPage(){return <div><section className="page-heading"><div><span className="eyebrow">VERSION 9 · STAGE 3</span><h1>Research Engine Control Room</h1><p>Development status for the ETF profile, evidence, portfolio-fit, and research-navigation systems.</p></div><div className="heading-badge"><BookOpenCheck size={18}/> STAGE 3 ACTIVE</div></section><section className="stage3-control-grid"><article className="panel stage3-control-hero"><SearchCheck size={30}/><h2>Explainable ETF Research</h2><p>Stage 3 converts portfolio records into structured research profiles while clearly separating modeled inputs from facts that still require provider verification.</p><div><span><CheckCircle2 size={15}/> Portfolio connected</span><span><ShieldCheck size={15}/> Evidence labeled</span><span><GitCompareArrows size={15}/> Peer-ready</span><span><Database size={15}/> Universe compatible</span></div></article><article className="panel stage3-readiness"><small>STAGE 3 READINESS</small><strong>76%</strong><div className="scorebar"><i style={{width:'76%'}}/></div><p>Core offline research is complete. Live issuer, benchmark, holdings, expenses, and history remain provider-dependent.</p></article></section><section className="panel stage3-module-table"><div className="panel-title"><h2>Build modules</h2></div>{modules.map(([name,status,description])=><div key={name}><span>{status==='Complete'?<CheckCircle2 size={17}/>:<CircleDashed size={17}/>}</span><strong>{name}</strong><b>{status}</b><small>{description}</small></div>)}</section></div>}

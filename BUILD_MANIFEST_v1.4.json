@@ -1,0 +1,24 @@
+{
+  "product": "IncomeOS Enterprise Edition",
+  "version": "1.4.0-phase-1-milestone-1",
+  "release": "Portfolio Management & Data Quality",
+  "built_at": "2026-07-21",
+  "verification": {
+    "automated_tests": "passed (2/2)",
+    "typescript": "passed",
+    "vite_production_build": "passed",
+    "post_build_artifact_check": "passed",
+    "known_warning": "Main application bundle exceeds Vite's 500 kB advisory threshold.",
+    "dependency_audit": "npm reported 7 vulnerabilities (2 low, 1 moderate, 4 high); no forced dependency upgrades were applied to avoid unreviewed breaking changes."
+  },
+  "phase_1_milestone_1": [
+    "Editable portfolio holdings",
+    "Duplicate ticker protection",
+    "Central holding validation",
+    "Portfolio data-quality scoring",
+    "CSV portfolio export",
+    "Responsive maintenance workflow",
+    "Automated release smoke tests"
+  ],
+  "data_notice": "Portfolio values are user-supplied or modeled until a licensed data provider is configured."
+}

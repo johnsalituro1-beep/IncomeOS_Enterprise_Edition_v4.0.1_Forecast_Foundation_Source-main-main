@@ -1,0 +1,10 @@
+{
+  "product": "IncomeOS Enterprise Edition",
+  "version": "1.0.0-enterprise",
+  "base": "ETF Dividend Calendar Pro v24",
+  "consolidatedPrograms": ["Platform Stages 1-9", "Program A ETF Universe", "Program B Digital Twin 2.0", "Program C Income Copilot v21-v23", "Program D Intelligence v24-v27"],
+  "newModules": ["intelligence-analytics", "portfolio-optimization", "executive-intelligence", "EnterpriseEditionPage"],
+  "dataClassification": "modeled development data",
+  "automaticTrading": false,
+  "productionBuildVerified": false
+}

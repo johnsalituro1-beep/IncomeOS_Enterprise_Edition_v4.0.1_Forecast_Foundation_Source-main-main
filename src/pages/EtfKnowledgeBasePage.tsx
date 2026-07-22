@@ -1,0 +1,13 @@
+import { Database, Filter, Network, Search, ShieldCheck } from 'lucide-react'
+import { useMemo, useState } from 'react'
+import { ETF_KNOWLEDGE_SEED } from '../domain/etf/knowledge/seed'
+
+export function EtfKnowledgeBasePage(){
+  const [query,setQuery]=useState(''); const [frequency,setFrequency]=useState('All')
+  const funds=useMemo(()=>ETF_KNOWLEDGE_SEED.filter(r=>{const q=query.toLowerCase(); const matches=!q||[r.master.ticker,r.master.fundName,r.master.strategy,r.master.issuer,...(r.classification?.tags??[])].some(v=>v.toLowerCase().includes(q)); return matches&&(frequency==='All'||r.master.distributionFrequency===frequency)}),[query,frequency])
+  return <div><section className="page-heading"><div><span className="eyebrow">ETF KNOWLEDGE GRAPH</span><h1>U.S. ETF Knowledge Base</h1><p>Normalized research architecture designed to ingest and maintain the full U.S.-listed ETF universe.</p></div></section>
+  <section className="kb-stats"><article className="panel"><Database/><div><small>Loaded development records</small><strong>{ETF_KNOWLEDGE_SEED.length}</strong></div></article><article className="panel"><Network/><div><small>Target coverage</small><strong>All U.S.-listed ETFs</strong></div></article><article className="panel"><ShieldCheck/><div><small>Data status</small><strong>Provider-ready schema</strong></div></article></section>
+  <article className="panel kb-toolbar"><div className="research-search"><Search size={18}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search ticker, fund, issuer, strategy, or tag…"/></div><label><Filter size={16}/><select value={frequency} onChange={e=>setFrequency(e.target.value)}><option>All</option><option>Weekly</option><option>Monthly</option><option>Quarterly</option><option>Irregular</option></select></label></article>
+  <section className="kb-table panel"><div className="kb-row kb-head"><span>Ticker</span><span>Fund / issuer</span><span>Strategy</span><span>Frequency</span><span>Risk</span></div>{funds.map(r=><div className="kb-row" key={r.master.id}><strong>{r.master.ticker}</strong><span><b>{r.master.fundName}</b><small>{r.master.issuer}</small></span><span>{r.master.strategy}</span><span>{r.master.distributionFrequency}</span><span className={`risk-pill risk-${(r.risk?.overallBand??'unknown').toLowerCase().replace(' ','-')}`}>{r.risk?.overallBand??'Pending'}</span></div>)}</section>
+  <p className="data-disclaimer">The current package contains demonstration records only. Complete U.S. ETF coverage requires a verified exchange, issuer, or licensed market-data feed; the importer, validation model, and repository are now prepared for that ingestion.</p></div>
+}

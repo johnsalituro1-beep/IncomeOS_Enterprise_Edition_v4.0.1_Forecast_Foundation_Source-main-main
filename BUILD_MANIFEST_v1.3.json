@@ -1,0 +1,23 @@
+{
+  "product": "IncomeOS Enterprise Edition",
+  "version": "1.3.0-portfolio-onboarding-investor-experience",
+  "release": "Portfolio Onboarding & Investor Experience",
+  "built_at": "2026-07-21",
+  "verification": {
+    "typescript": "passed",
+    "vite_production_build": "passed",
+    "post_build_artifact_check": "passed",
+    "known_warning": "Main application bundle exceeds Vite's 500 kB advisory threshold; code splitting remains a performance-hardening task."
+  },
+  "major_capabilities": [
+    "Four-step first-run onboarding wizard",
+    "CSV upload and pasted CSV import",
+    "Brokerage-friendly column alias mapping",
+    "Import validation and enrichment warnings",
+    "Investor goal and risk profile builder",
+    "Portfolio readiness assessment",
+    "Workspace activation into Mission Control",
+    "Supabase onboarding schema with row-level security"
+  ],
+  "data_notice": "Imported portfolio data is user supplied. Development holdings are modeled. Live licensed market data remains provider dependent."
+}

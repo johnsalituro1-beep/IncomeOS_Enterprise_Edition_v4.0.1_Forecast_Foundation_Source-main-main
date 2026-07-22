@@ -1,0 +1,6 @@
+export type ResearchEvidence={label:string;value:string;sourceStatus:'verified'|'modeled'|'missing'}
+export type EtfResearchProfile={ticker:string;summary:string;role:string;strengths:string[];considerations:string[];evidence:ResearchEvidence[];dataQuality:number}
+export function buildResearchProfile(ticker:string, category:string, frequency:string, yieldPct:number):EtfResearchProfile{
+ const highYield=yieldPct>12
+ return {ticker,summary:`${ticker} is currently modeled as a ${category} ETF with ${frequency.toLowerCase()} distributions.`,role:category.includes('Covered')?'Satellite income sleeve':'Portfolio income allocation',strengths:[`${frequency} cash-flow cadence`,`${yieldPct.toFixed(1)}% modeled yield`,category],considerations:[highYield?'High modeled yield requires distribution and NAV-sustainability review.':'Verify long-term total return and distribution consistency.','Holdings, expenses, AUM, and tax character require a verified provider.'],evidence:[{label:'Category',value:category,sourceStatus:'modeled'},{label:'Distribution frequency',value:frequency,sourceStatus:'modeled'},{label:'Yield',value:`${yieldPct.toFixed(2)}%`,sourceStatus:'modeled'},{label:'Live issuer data',value:'Provider not connected',sourceStatus:'missing'}],dataQuality:42}
+}

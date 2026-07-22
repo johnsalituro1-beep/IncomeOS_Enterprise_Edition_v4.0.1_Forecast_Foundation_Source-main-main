@@ -1,0 +1,3 @@
+import { Building2 } from 'lucide-react'
+import { commercialCapabilities } from '../domain/commercial/commercialReadiness'
+export function CommercialEditionPage(){return <div><div className="page-heading"><div><span className="eyebrow">COMMERCIAL READINESS</span><h1>Commercial Edition</h1><p>Product tiers, cloud capabilities, advisor workflows, and release dependencies.</p></div><Building2/></div><section className="panel commercial-table"><div className="commercial-row head"><span>Capability</span><span>Tier</span><span>Status</span><span>Notes</span></div>{commercialCapabilities.map(x=><div className="commercial-row" key={x.id}><b>{x.name}</b><span>{x.tier}</span><span>{x.status}</span><small>{x.notes}</small></div>)}</section></div>}

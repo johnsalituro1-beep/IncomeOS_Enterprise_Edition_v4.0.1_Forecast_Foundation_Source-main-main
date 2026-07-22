@@ -1,0 +1,21 @@
+{
+  "product": "IncomeOS Enterprise Edition",
+  "version": "1.1.0-production-foundation",
+  "buildType": "verified-production-foundation",
+  "features": [
+    "typescript-production-build",
+    "vite-bundle",
+    "runtime-config-validation",
+    "react-error-boundary",
+    "supabase-health-check",
+    "system-status-page",
+    "github-actions-ci",
+    "post-build-verification"
+  ],
+  "excluded": [
+    "licensed-live-market-data",
+    "brokerage-connectivity",
+    "production-secrets",
+    "automatic-trading"
+  ]
+}

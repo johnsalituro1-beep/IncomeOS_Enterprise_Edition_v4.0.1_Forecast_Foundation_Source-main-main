@@ -1,0 +1,10 @@
+export type ImportRow={ticker:string;fundName:string;issuer:string;exchange:string;expenseRatio?:number;distributionFrequency?:string;assetClass?:string;strategy?:string;active?:boolean}
+export type ImportIssue={row:number;field:string;message:string;severity:'error'|'warning'}
+export type ImportResult={accepted:ImportRow[];issues:ImportIssue[];duplicates:string[];qualityScore:number}
+export function parseEtfCsv(csv:string):ImportResult{
+ const lines=csv.trim().split(/\r?\n/); if(lines.length<2)return{accepted:[],issues:[{row:1,field:'file',message:'CSV contains no data rows',severity:'error'}],duplicates:[],qualityScore:0}
+ const headers=lines[0].split(',').map(x=>x.trim()); const issues:ImportIssue[]=[]; const seen=new Set<string>(); const duplicates:string[]=[]; const accepted:ImportRow[]=[]
+ lines.slice(1).forEach((line,i)=>{const vals=line.split(',').map(x=>x.trim()); const raw=Object.fromEntries(headers.map((h,j)=>[h,vals[j]||''])); const ticker=String(raw.ticker||'').toUpperCase(); if(!ticker){issues.push({row:i+2,field:'ticker',message:'Ticker is required',severity:'error'});return} if(seen.has(ticker)){duplicates.push(ticker);issues.push({row:i+2,field:'ticker',message:'Duplicate ticker',severity:'warning'});return} seen.add(ticker); if(!raw.fundName)issues.push({row:i+2,field:'fundName',message:'Fund name is missing',severity:'warning'}); accepted.push({ticker,fundName:String(raw.fundName||ticker),issuer:String(raw.issuer||'Unknown'),exchange:String(raw.exchange||'Unknown'),expenseRatio:raw.expenseRatio?Number(raw.expenseRatio):undefined,distributionFrequency:String(raw.distributionFrequency||'Unknown'),assetClass:String(raw.assetClass||'Unknown'),strategy:String(raw.strategy||'Unknown'),active:String(raw.active||'true').toLowerCase()!=='false'})})
+ const errors=issues.filter(x=>x.severity==='error').length; const warnings=issues.length-errors; const qualityScore=Math.max(0,Math.round(100-errors*12-warnings*2))
+ return{accepted,issues,duplicates,qualityScore}
+}

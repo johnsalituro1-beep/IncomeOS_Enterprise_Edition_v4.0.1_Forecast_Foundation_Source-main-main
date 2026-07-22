@@ -1,0 +1,25 @@
+{
+  "release": "IncomeOS Enterprise Edition v1.5",
+  "milestone": "Phase 1 Milestone 2 — Persistent Portfolio Engine",
+  "built_at": "2026-07-21",
+  "verification": {
+    "automated_tests": "5/5 passed",
+    "typescript": "passed",
+    "production_build": "passed",
+    "artifact_verification": "passed"
+  },
+  "capabilities": [
+    "Supabase user-owned portfolio persistence",
+    "Local demo-mode persistence fallback",
+    "Visible synchronization and error states",
+    "Auditable buy, sell, dividend, deposit, withdrawal, and fee ledger",
+    "Transaction cash-flow summaries",
+    "Persistent weekly income goal",
+    "Database indexes, integrity constraints, and update timestamps"
+  ],
+  "deployment_migration": "supabase/migrations/20260721_v1_5_persistent_portfolio.sql",
+  "known_advisories": [
+    "Main production bundle exceeds Vite's 500 kB advisory threshold.",
+    "npm audit reports 7 dependency vulnerabilities; forced major-version upgrades were not applied."
+  ]
+}

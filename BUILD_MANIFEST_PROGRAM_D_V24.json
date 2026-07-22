@@ -1,0 +1,23 @@
+{
+  "product": "ETF Dividend Calendar Pro / IncomeOS",
+  "version": "24.0.0-program-d-income-os-intelligence-core",
+  "program": "D",
+  "release": "Version 24 — Core Intelligence Engine",
+  "status": "offline source build",
+  "modules": [
+    "Income OS Score Engine",
+    "Explainability Framework",
+    "Portfolio Health Engine",
+    "Recommendation Prioritization",
+    "Historical Score Timeline",
+    "Shared Intelligence Service Layer",
+    "Supabase Intelligence Schema",
+    "Program D Dashboard"
+  ],
+  "data_notice": "Included portfolio values and signals are modeled development data.",
+  "production_limitations": [
+    "Full React/Vite build requires installed dependencies",
+    "Live market data provider is not connected",
+    "Scoring weights require production calibration"
+  ]
+}
