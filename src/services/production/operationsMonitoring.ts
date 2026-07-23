@@ -27,14 +27,14 @@ export function classifyBackupStatus(backups:BackupVerification[], now=new Date(
   return 'healthy' as const
 }
 
-export function buildOperationsSnapshot(input:{checks:HealthCheck[]; incidents:Incident[]; backups:BackupVerification[]; maintenance?:boolean}):OperationsSnapshot {
+export function buildOperationsSnapshot(input:{checks:HealthCheck[]; incidents:Incident[]; backups:BackupVerification[]; maintenance?:boolean; now?:Date}):OperationsSnapshot {
   const open=input.incidents.filter(i=>i.status!=='resolved')
   return {
     overall: classifyOverallStatus(input.checks, input.maintenance),
     availabilityPct: calculateAvailability(input.checks),
     openIncidents: open.length,
     criticalIncidents: open.filter(i=>i.severity==='critical').length,
-    backupStatus: classifyBackupStatus(input.backups),
+    backupStatus: classifyBackupStatus(input.backups, input.now),
     checks: input.checks,
   }
 }

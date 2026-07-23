@@ -18,7 +18,7 @@ test('escalates critical and repeated incidents',()=>{
 test('classifies verified recent backups as healthy',()=>{
  const backups:BackupVerification[]=[{id:'1',backupAt:'2026-07-21T10:00:00Z',verifiedAt:'2026-07-21T11:00:00Z',restoreTestedAt:'2026-07-21T11:00:00Z',status:'verified',notes:''}]
  assert.equal(classifyBackupStatus(backups,new Date('2026-07-21T12:00:00Z')),'healthy')
- assert.equal(buildOperationsSnapshot({checks:[check('operational')],incidents:[],backups}).backupStatus,'healthy')
+ assert.equal(buildOperationsSnapshot({checks:[check('operational')],incidents:[],backups, now:new Date('2026-07-21T12:00:00Z')}).backupStatus,'healthy')
 })
 test('uses bounded exponential retry intervals',()=>{
  assert.equal(nextBackoffSeconds(1),30); assert.equal(nextBackoffSeconds(2),60); assert.equal(nextBackoffSeconds(10),900)
