@@ -1,0 +1,12 @@
+{
+  "product": "ETF Dividend Calendar Pro",
+  "version": "23.0.0-program-c-income-copilot-decision-studio",
+  "program": "C — Income Copilot",
+  "releases": [
+    {"version": 21, "name": "Copilot Core", "status": "built"},
+    {"version": 22, "name": "Portfolio Advisor", "status": "built"},
+    {"version": 23, "name": "Decision Studio", "status": "built"}
+  ],
+  "data_status": "Offline modeled development data",
+  "production_build_status": "Requires dependency installation and verified provider integrations"
+}

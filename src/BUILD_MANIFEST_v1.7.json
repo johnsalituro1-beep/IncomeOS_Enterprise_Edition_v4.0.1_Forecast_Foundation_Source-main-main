@@ -1,0 +1,17 @@
+{
+  "release": "1.7.0",
+  "milestone": "Phase 1 Milestone 3B",
+  "features": [
+    "distribution event model",
+    "income projection engine",
+    "confirmed and projected calendar",
+    "forward yield and yield on cost",
+    "90-day cash-flow outlook"
+  ],
+  "verification": {
+    "typecheck": "passed",
+    "tests": "13/13 passed",
+    "productionBuild": "passed",
+    "artifactVerification": "passed"
+  }
+}

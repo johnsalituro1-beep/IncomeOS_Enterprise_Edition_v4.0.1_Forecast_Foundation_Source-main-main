@@ -1,0 +1,15 @@
+ETF Dividend Calendar Pro
+Program A Phase 2 — Historical ETF Data Warehouse
+Version: 18.0.0-program-a-phase-2-historical-warehouse
+
+Validation completed:
+- Phase 2 standalone TypeScript domain modules: PASS
+- Supabase migration structure: ADDED
+- Offline development dataset: MODELED / NOT VERIFIED MARKET DATA
+- Full React/Vite production build: NOT RUN (dependencies are not installed in this offline package)
+
+Primary additions:
+- src/domain/etf-universe/phase-two/
+- src/pages/ProgramAUniversePage.tsx
+- supabase/migrations/20260721_program_a_phase_2_historical_warehouse.sql
+- docs/PROGRAM_A_PHASE_2_HISTORICAL_WAREHOUSE.md

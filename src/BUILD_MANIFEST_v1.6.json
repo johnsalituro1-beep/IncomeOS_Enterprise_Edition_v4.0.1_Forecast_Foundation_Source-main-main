@@ -1,0 +1,13 @@
+{
+  "release": "IncomeOS Enterprise Edition v1.6",
+  "milestone": "Phase 1 Milestone 3A — Portfolio Calculation Engine",
+  "features": [
+    "transaction-derived positions",
+    "weighted-average cost basis",
+    "realized and unrealized gain/loss",
+    "total-return accounting",
+    "ledger coverage and reconciliation warnings",
+    "sell quantity validation"
+  ],
+  "verification": ["automated tests", "TypeScript typecheck", "Vite production build", "artifact verification"]
+}

@@ -1,0 +1,17 @@
+{
+  "product": "IncomeOS Enterprise Edition",
+  "version": "1.2.0-live-etf-data-platform",
+  "built_at": "2026-07-21",
+  "capabilities": [
+    "provider-neutral ETF data adapter contract",
+    "executable sandbox provider",
+    "quote, NAV, distribution, holdings and fund normalization",
+    "validation and duplicate detection",
+    "ingestion-run audit model",
+    "data lineage and confidence metadata",
+    "data operations dashboard",
+    "Supabase live-data migration"
+  ],
+  "production_data_included": false,
+  "trade_execution_included": false
+}
